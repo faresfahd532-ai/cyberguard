@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign Up | CyberGuard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+
+            background: #050816;
+            color: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .signup-box {
+            width: 100%;
+            max-width: 450px;
+
+            background: #0b1024;
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            border: 1px solid rgba(0, 229, 255, 0.2);
+
+            box-shadow:
+                0 0 40px rgba(0, 229, 255, 0.08);
+        }
+
+        .logo {
+            text-align: center;
+
+            font-size: 28px;
+            font-weight: bold;
+
+            color: #00e5ff;
+
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #9ca3af;
+
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #d1d5db;
+
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 14px;
+
+            background: #050816;
+
+            border: 1px solid #26304d;
+
+            border-radius: 9px;
+
+            color: white;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #00e5ff;
+
+            box-shadow:
+                0 0 0 3px rgba(0, 229, 255, 0.08);
+        }
+
+        .signup-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 8px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #00e5ff;
+
+            color: #050816;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 25px rgba(0, 229, 255, 0.2);
+        }
+
+        .login-text {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #9ca3af;
+        }
+
+        .login-text a {
+            color: #00e5ff;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .back {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #6b7280;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+        .back:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="signup-box">
+
+        <div class="logo">
+            🛡️ CyberGuard
+        </div>
+
+        <p class="subtitle">
+            Create your cybersecurity account.
+        </p>
+
+        <form>
+
+            <div class="input-group">
+                <label>Username</label>
+
+                <input
+                    type="text"
+                    placeholder="Enter your username"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    placeholder="Create a password"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Confirm Password</label>
+
+                <input
+                    type="password"
+                    placeholder="Confirm your password"
+                    required
+                >
+            </div>
+
+            <button class="signup-btn" type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="login-text">
+            Already have an account?
+            <a href="login.html">Login</a>
+        </p>
+
+        <a href="index.html" class="back">
+            ← Back to Home
+        </a>
+
+    </div>
+<script>
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const username = document.querySelector(
+            'input[type="text"]'
+        ).value;
+
+        const email = document.querySelector(
+            'input[type="email"]'
+        ).value;
+
+        const passwords = document.querySelectorAll(
+            'input[type="password"]'
+        );
+
+        const password = passwords[0].value;
+        const confirmPassword = passwords[1].value;
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:5000/api/register",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        password
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            alert(data.message);
+
+            console.log(data);
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Could not connect to the server.");
+
+        }
+
+    });
+</script>
+</body>
+</html>

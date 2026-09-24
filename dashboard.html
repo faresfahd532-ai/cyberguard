@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CyberGuard Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: #0f172a;
+            color: #ffffff;
+        }
+
+        .navbar {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: #111827;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .logout {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #ef4444;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 25px;
+        }
+
+        .welcome {
+            margin-bottom: 40px;
+        }
+
+        .welcome h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .welcome span {
+            color: #38bdf8;
+        }
+
+        .welcome p {
+            color: #94a3b8;
+            font-size: 18px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            padding: 30px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: #38bdf8;
+        }
+
+        .card h2 {
+            margin-bottom: 12px;
+            color: #38bdf8;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 800px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .welcome h1 {
+                font-size: 32px;
+            }
+        }
+
+        .stats {
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: #38bdf8;
+}
+
+.stat-card span {
+    font-size: 30px;
+}
+
+.stat-card h3 {
+    font-size: 32px;
+    color: #38bdf8;
+    margin: 10px 0;
+}
+
+.stat-card p {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+
+@media (max-width: 768px) {
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .stat-card h3 {
+        font-size: 26px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+}
+/* ============================= */
+/* Professional Profile Design */
+/* ============================= */
+
+.profile-card {
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    animation: profileAppear 0.7s ease;
+}
+
+.profile-card::before {
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: #38bdf8;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.08;
+    top: -120px;
+    right: -100px;
+    pointer-events: none;
+}
+
+.profile-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    background: #0f172a;
+    border: 2px solid #38bdf8;
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.25);
+    transition: 0.3s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.08) rotate(3deg);
+    box-shadow: 0 0 35px rgba(56, 189, 248, 0.45);
+}
+
+.profile-title h1 {
+    margin-bottom: 6px;
+}
+
+.profile-title p {
+    color: #94a3b8;
+}
+
+.status {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 13px;
+    border-radius: 20px;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    color: #86efac;
+    font-size: 13px;
+}
+
+.status span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 10px #22c55e;
+    animation: pulse 1.8s infinite;
+}
+
+.divider {
+    height: 1px;
+    background: #334155;
+    margin: 30px 0;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.info-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid #334155;
+    border-radius: 12px;
+    transition: 0.3s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-3px);
+    border-color: #38bdf8;
+}
+
+.info-icon {
+    font-size: 24px;
+}
+
+.info-box small {
+    display: block;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.info-box strong {
+    color: #f8fafc;
+    word-break: break-word;
+}
+
+.section-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.stat {
+    text-align: center;
+    padding: 22px 15px;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid #334155;
+    border-radius: 14px;
+    transition: 0.3s ease;
+}
+
+.stat:hover {
+    transform: translateY(-6px);
+    border-color: #38bdf8;
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.08);
+}
+
+.stat-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.stat h2 {
+    color: #38bdf8;
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+.stat p {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+
+/* Animations */
+
+@keyframes profileAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+@keyframes pulse {
+
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.4);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .profile-header {
+        flex-wrap: wrap;
+    }
+
+    .status {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .info {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">🛡️ CyberGuard</div>
+
+        <a href="profile.html" style="color: white; text-decoration: none;">
+    👤 Profile
+</a>
+
+        <button class="logout" onclick="logout()">
+            Logout
+        </button>
+    </nav>
+
+    <main class="container">
+
+        <section class="welcome">
+            <h1>
+                Welcome to <span>CyberGuard</span> 👋
+            </h1>
+
+            <p>
+                Your cybersecurity learning journey starts here.
+            </p>
+        </section>
+
+        <section class="stats">
+
+    <div class="stat-card">
+        <span>🧠</span>
+        <h3 id="quizCount">0</h3>
+        <p>Quizzes Completed</p>
+    </div>
+
+    <div class="stat-card">
+        <span>⚔️</span>
+        <h3 id="challengeCount">0</h3>
+        <p>Challenges Completed</p>
+    </div>
+
+    <div class="stat-card">
+        <span>🏆</span>
+        <h3 id="badgeCount">0</h3>
+        <p>Badges Earned</p>
+    </div>
+
+    <div class="stat-card">
+        <span>⭐</span>
+        <h3 id="totalScore">0</h3>
+        <p>Total Score</p>
+    </div>
+
+</section>
+
+        <section class="cards">
+
+    <div class="card" onclick="window.location.href='quiz.html'">
+
+        <h2>🎯 Quizzes</h2>
+
+        <p>
+            Test your cybersecurity knowledge
+            through interactive quizzes.
+        </p>
+
+        <span class="card-link">
+            Start Quiz →
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>⚔️ Challenges</h2>
+
+        <p>
+            Practice your skills through
+            realistic cybersecurity challenges.
+        </p>
+
+        <span class="card-link">
+            Coming Soon
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🏆 Achievements</h2>
+
+        <p>
+            Track your progress and earn
+            cybersecurity badges.
+        </p>
+
+        <span class="card-link">
+            Coming Soon
+        </span>
+
+    </div>
+
+</section>
+
+    </main>
+
+    <script>
+
+        const token = localStorage.getItem("token");
+
+if (!token) {
+    window.location.href = "login.html";
+}
+
+async function loadProfile() {
+    const response = await fetch(
+        "http://localhost:5000/api/profile",
+        {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    document.querySelector(".welcome h1").innerHTML =
+        `Welcome, <span>${data.user.username}</span> 👋`;
+
+    document.querySelector(".welcome p").textContent =
+        `Email: ${data.user.email}`;
+}
+
+loadProfile();
+
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+    </script>
+
+</body>
+</html>

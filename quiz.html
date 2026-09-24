@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CyberGuard - Quiz</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .navbar {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .back {
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border: 1px solid #334155;
+            border-radius: 8px;
+        }
+
+        .back:hover {
+            background: #1e293b;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 60px auto;
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid #334155;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .quiz-header {
+            margin-bottom: 30px;
+        }
+
+        .quiz-header h1 {
+            color: #38bdf8;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header p {
+            color: #94a3b8;
+        }
+
+        .question-number {
+            color: #38bdf8;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question {
+            font-size: 22px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: white;
+            padding: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            border-color: #38bdf8;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #38bdf8;
+            background: #164e63;
+        }
+
+        .next-btn {
+            width: 100%;
+            margin-top: 30px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #38bdf8;
+            color: #0f172a;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .next-btn:hover {
+            background: #7dd3fc;
+        }
+
+        .result {
+            text-align: center;
+            display: none;
+        }
+
+        .result h2 {
+            font-size: 32px;
+            color: #38bdf8;
+            margin-bottom: 15px;
+        }
+
+        .score {
+            font-size: 50px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 10px;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🛡️ CyberGuard
+        </div>
+
+        <a href="dashboard.html" class="back">
+            ← Dashboard
+        </a>
+
+    </nav>
+
+
+    <main class="quiz-container">
+
+        <div id="quiz">
+
+            <div class="quiz-header">
+                <h1>Cybersecurity Quiz 🧠</h1>
+                <p>Test your cybersecurity knowledge.</p>
+            </div>
+
+            <div class="question-number" id="questionNumber">
+                Question 1 of 5
+            </div>
+
+            <div class="question" id="question">
+                Loading question...
+            </div>
+
+            <div class="options" id="options"></div>
+
+            <button class="next-btn" onclick="nextQuestion()">
+                Next Question →
+            </button>
+
+        </div>
+
+
+        <div class="result" id="result">
+
+            <h2>Quiz Completed! 🎉</h2>
+
+            <p>Your Score</p>
+
+            <div class="score" id="score">
+                0 / 5
+            </div>
+
+            <p id="resultMessage"></p>
+
+            <br>
+
+            <button class="restart-btn" onclick="restartQuiz()">
+                Try Again
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        const questions = [
+
+            {
+                question: "What is phishing?",
+                options: [
+                    "A type of computer hardware",
+                    "A social engineering attack",
+                    "An antivirus program",
+                    "A programming language"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "Which password is the strongest?",
+                options: [
+                    "12345678",
+                    "password",
+                    "Fares2005",
+                    "T!9x#Q2@Lm7$"
+                ],
+                answer: 3
+            },
+
+            {
+                question: "What does VPN stand for?",
+                options: [
+                    "Virtual Private Network",
+                    "Very Protected Network",
+                    "Virtual Public Node",
+                    "Verified Private Network"
+                ],
+                answer: 0
+            },
+
+            {
+                question: "What is malware?",
+                options: [
+                    "A security certificate",
+                    "Malicious software",
+                    "A web browser",
+                    "A firewall"
+                ],
+                answer: 1
+            },
+
+            {
+                question: "What is the main purpose of a firewall?",
+                options: [
+                    "To create passwords",
+                    "To block unauthorized network traffic",
+                    "To increase screen brightness",
+                    "To store files"
+                ],
+                answer: 1
+            }
+
+        ];
+
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+
+
+        function loadQuestion() {
+
+            selectedAnswer = null;
+
+            const question = questions[currentQuestion];
+
+            document.getElementById("questionNumber").textContent =
+                `Question ${currentQuestion + 1} of ${questions.length}`;
+
+            document.getElementById("question").textContent =
+                question.question;
+
+            const optionsContainer =
+                document.getElementById("options");
+
+            optionsContainer.innerHTML = "";
+
+
+            question.options.forEach((option, index) => {
+
+                const button = document.createElement("button");
+
+                button.className = "option";
+
+                button.textContent = option;
+
+                button.onclick = function () {
+
+                    selectedAnswer = index;
+
+                    document.querySelectorAll(".option").forEach(btn => {
+                        btn.classList.remove("selected");
+                    });
+
+                    button.classList.add("selected");
+                };
+
+                optionsContainer.appendChild(button);
+
+            });
+
+        }
+
+
+        function nextQuestion() {
+
+            if (selectedAnswer === null) {
+                alert("Please select an answer first.");
+                return;
+            }
+
+
+            if (selectedAnswer === questions[currentQuestion].answer) {
+                score++;
+            }
+
+
+            currentQuestion++;
+
+
+            if (currentQuestion < questions.length) {
+
+                loadQuestion();
+
+            } else {
+
+                showResult();
+
+            }
+
+        }
+
+
+        function showResult() {
+
+            document.getElementById("quiz").style.display = "none";
+
+            document.getElementById("result").style.display = "block";
+
+            document.getElementById("score").textContent =
+                `${score} / ${questions.length}`;
+                saveQuizResult();
+
+
+            if (score === questions.length) {
+
+                document.getElementById("resultMessage").textContent =
+                    "Perfect! You're a cybersecurity expert! 🛡️";
+
+            } else if (score >= 3) {
+
+                document.getElementById("resultMessage").textContent =
+                    "Great job! Keep improving your cybersecurity knowledge. 🚀";
+
+            } else {
+
+                document.getElementById("resultMessage").textContent =
+                    "Keep learning and try again! 💪";
+
+            }
+
+        }
+
+
+        function restartQuiz() {
+
+            currentQuestion = 0;
+            score = 0;
+
+            document.getElementById("quiz").style.display = "block";
+
+            document.getElementById("result").style.display = "none";
+
+            loadQuestion();
+
+        }
+
+
+        loadQuestion();
+
+
+
+        async function saveQuizResult() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:5000/api/quiz-result",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+
+                body: JSON.stringify({
+                    score: score,
+                    total: questions.length
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        console.log(data);
+
+    } catch (error) {
+
+        console.error("Could not save quiz result:", error);
+
+    }
+}
+
+    </script>
+
+</body>
+
+</html>
